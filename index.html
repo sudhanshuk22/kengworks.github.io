@@ -3,135 +3,564 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Engineering Design</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Engineering Design | Portfolio</title>
+    <!-- Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg: #ffffff;
-            --text: #1a1a1a;
-            --accent: #0056b3; /* Industrial Blue */
-            --light-grey: #f4f4f4;
+            --bg: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --border: #e2e8f0;
+            --white: #ffffff;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--text);
             background-color: var(--bg);
-            scroll-behavior: smooth;
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Blueprint Background */
+        .blueprint-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.04;
+            z-index: 0;
+            background-image: radial-gradient(#000 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
         /* Navigation */
         nav {
             position: fixed;
+            top: 0;
             width: 100%;
-            padding: 1.5rem 10%;
-            display: flex;
-            justify-content: space-between;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
         }
 
-        nav a { text-decoration: none; color: var(--text); font-weight: 700; font-size: 0.9rem; }
+        .nav-content {
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* Hero Section */
-        header {
-            height: 100vh;
+        .logo {
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            font-size: 1.25rem;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+                gap: 2.5rem;
+            }
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 0 10%;
-            background: radial-gradient(circle at 90% 10%, var(--light-grey) 0%, transparent 40%);
+            padding-top: 70px;
         }
 
-        h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 1rem; }
-        .subtitle { font-size: 1.2rem; color: #666; max-width: 600px; }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #eff6ff;
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2rem;
+        }
 
-        /* Project Grid */
-        section { padding: 5rem 10%; }
-        h2 { margin-bottom: 3rem; font-size: 2rem; border-left: 4px solid var(--accent); padding-left: 1rem; }
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
 
-        .grid {
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--text-main);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: var(--text-main);
+            color: var(--white);
+        }
+
+        /* Sections General */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+        }
+
+        /* Services */
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+        }
+
+        .service-card i {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
         }
 
         .project-card {
-            background: var(--light-grey);
-            padding: 1.5rem;
-            transition: transform 0.3s ease;
-            border: 1px solid #ddd;
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
-        .project-card:hover { transform: translateY(-5px); border-color: var(--accent); }
-        .project-card h3 { margin-bottom: 0.5rem; }
-        .project-card p { font-size: 0.9rem; color: #555; }
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+        }
 
-        /* Contact */
-        .btn {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 1rem 2rem;
+        .project-tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .project-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .tool-tag {
+            font-size: 10px;
+            background: var(--bg);
+            padding: 0.2rem 0.5rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 4px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--text-main);
+            color: var(--white);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+
+        @media (min-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .contact-info h2 {
+            color: var(--white);
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-links {
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+
+        .contact-link:hover {
+            color: var(--accent);
+        }
+
+        .contact-form {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 0;
+            outline: none;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .submit-btn {
+            width: 100%;
             background: var(--accent);
             color: white;
-            text-decoration: none;
-            font-weight: bold;
+            border: none;
+            padding: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background 0.2s;
         }
 
-        footer { text-align: center; padding: 3rem; font-size: 0.8rem; color: #999; }
+        .submit-btn:hover {
+            background: var(--accent-hover);
+        }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* SVG Background Graphic */
+        .contact-graphic {
+            position: absolute;
+            right: -5%;
+            top: 10%;
+            width: 40%;
+            opacity: 0.05;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
+    <div class="blueprint-bg"></div>
+
     <nav>
-        <div class="logo">DESIGN.ENG</div>
-        <div>
-            <a href="#projects">PROJECTS</a>
+        <div class="container nav-content">
+            <div class="logo">ENG<span>.</span>DESIGN</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
         </div>
     </nav>
 
-    <header>
-        <h1>Engineering Design <br>& Prototyping.</h1>
-        <p class="subtitle">Freelance Mechanical Engineer specializing in DFM, CAD modeling, and structural analysis. I turn complex problems into manufacturable solutions.</p>
-        <a href="#contact" class="btn">Get In Touch</a>
-    </header>
+    <main class="container">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="status-badge">Available for Q1 2026 Projects</div>
+            <h1>Engineering solutions <br><span style="color: #94a3b8; font-weight: 300; font-style: italic;">designed for precision.</span></h1>
+            <p>Independent Freelance Engineer specializing in CAD modeling, structural analysis, and DFM. I transform conceptual sketches into manufacturable reality.</p>
+            <div class="btn-group">
+                <a href="#projects" class="btn btn-primary">View Projects <i data-lucide="chevron-down"></i></a>
+                <a href="#contact" class="btn btn-outline">Contact Me</a>
+            </div>
+        </section>
 
-    <section id="projects">
-        <h2>Selected Projects</h2>
-        <div class="grid">
-            <div class="project-card">
-                <h3>01. Hydraulic Actuator</h3>
-                <p>Redesign for 15% weight reduction using topology optimization. Optimized for 3D printing in Grade 5 Titanium.</p>
+        <!-- Services Section -->
+        <section id="services">
+            <span class="section-tag">Core Capabilities</span>
+            <h2>What I Do.</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i data-lucide="settings" size="40"></i>
+                    <h3>CAD & 3D Modeling</h3>
+                    <p>Complex surface modeling, parametric assemblies, and production-ready technical drawings using industry standards.</p>
+                </div>
+                <div class="service-card">
+                    <i data-lucide="layers" size="40"></i>
+                    <h3>FEA & Simulation</h3>
+                    <p>Structural, thermal, and fluid analysis to validate designs before prototyping, saving time and material costs.</p>
+                </div>
+                <div class="service-card">
+                    <i data-lucide="cpu" size="40"></i>
+                    <h3>DFM / DFA</h3>
+                    <p>Optimization for CNC machining, 3D printing, and injection molding. Designing for lower assembly costs and high yield.</p>
+                </div>
             </div>
-            <div class="project-card">
-                <h3>02. Consumer Electronics Enclosure</h3>
-                <p>IP67-rated housing design. Managed toolpathing and injection molding specifications for mass production.</p>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <span class="section-tag">Selected Case Studies</span>
+            <h2>Technical Work.</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-tag">Topology Optimization</div>
+                    <h4>Aerospace Valve Redesign</h4>
+                    <p>Reduced weight by 22% using generative design while maintaining a 2.5x safety factor for high-pressure fluid systems.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">ANSYS</span>
+                        <span class="tool-tag">SolidWorks</span>
+                        <span class="tool-tag">Additive Mfg</span>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-tag">Mechatronics</div>
+                    <h4>Automated Test Fixture</h4>
+                    <p>Designed a high-throughput reliability testing rig with integrated sensors for real-time fatigue analysis.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Fusion 360</span>
+                        <span class="tool-tag">Arduino</span>
+                        <span class="tool-tag">DFM</span>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-tag">Industrial Design</div>
+                    <h4>Consumer IoT Enclosure</h4>
+                    <p>IP67-rated waterproof housing for smart city sensors, optimized for high-volume injection molding.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Keyshot</span>
+                        <span class="tool-tag">Mastercam</span>
+                    </div>
+                </div>
             </div>
-            <div class="project-card">
-                <h3>03. Custom Test Rig</h3>
-                <p>Automated stress-testing rig using Arduino integration and custom aluminum extrusions.</p>
+        </section>
+    </main>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <svg class="contact-graphic" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="0.5">
+            <circle cx="50" cy="50" r="40" stroke-dasharray="2 2" />
+            <rect x="20" y="20" width="60" height="60" stroke-dasharray="1 1" />
+            <line x1="0" y1="0" x2="100" y2="100" />
+            <line x1="100" y1="0" x2="0" y2="90" />
+        </svg>
+
+        <div class="container contact-grid">
+            <div class="contact-info">
+                <h2>Start a design inquiry.</h2>
+                <p style="color: #94a3b8; font-size: 1.1rem;">Looking for a freelance partner for your next product launch? Let's discuss your technical requirements and project timeline.</p>
+                <div class="contact-links">
+                    <a href="mailto:engineer@yourname.com" class="contact-link">
+                        <i data-lucide="mail"></i> engineer@yourname.com
+                    </a>
+                    <a href="#" class="contact-link">
+                        <i data-lucide="linkedin"></i> linkedin.com/in/yourprofile
+                    </a>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form onsubmit="event.preventDefault();">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="john@company.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Service Required</label>
+                        <select>
+                            <option>Product Development</option>
+                            <option>CAD Optimization</option>
+                            <option>FEA Simulation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea rows="4" placeholder="Tell me about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Inquiry</button>
+                </form>
             </div>
         </div>
     </section>
 
-    <section id="contact" style="background: var(--light-grey);">
-        <h2>Let's Collaborate</h2>
-        <p>Currently accepting freelance contracts for Q3 2026.</p>
-        <p><strong>Email:</strong> your.email@example.com</p>
-        <p><strong>LinkedIn:</strong> linkedin.com/in/yourprofile</p>
-    </section>
-
     <footer>
-        &copy; 2026 Your Name | Built with Precision.
+        &copy; 2026 ENG.DESIGN &mdash; PRECISION ENGINEERED
     </footer>
 
+    <!-- Initialize Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
